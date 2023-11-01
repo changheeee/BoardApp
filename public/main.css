@@ -185,15 +185,36 @@ body {
   font-size: 14px;
   color: #888;
 }
+.detail-wrap .detail-header .post-info .user_name {
+  color: #555;
+  font-weight: 500;
+}
+.detail-wrap .detail-header .post-info .separate {
+  margin: 0 5px;
+}
 
 .detail-wrap .detail-section {
-  padding: 20px 10px 100px 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
   width: 100%;
   border-bottom: 1.5px solid #999;
 }
 .detail-wrap .detail-section p {
+  padding-bottom: 150px;
   font-size: 15px;
   font-weight: 400;
+}
+
+.detail-wrap .detail-section .like_btn {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #333;
+  color: #333;
+  border-radius: 5px;
 }
 
 .detail-wrap .detail-footer {

@@ -15,11 +15,13 @@
         <h4><%= detail.title %></h4>
         <div class="post-info">
           <div class="left">
-            <span><%= detail.user_name %></span>
+            <span class="user_name"><%= detail.user_name %></span>
+            <span class="separate">|</span>
+            <span><%= detail.created_at.toLocaleString("ko-KR")%></span>
           </div>
           <div class="right">
             <span>조회수 <%= detail.views %></span>
-            <span>|</span>
+            <span class="separate">|</span>
             <span>좋아요 <%= detail.like %></span>
           </div>
         </div>
@@ -27,6 +29,9 @@
 
       <section class="detail-section">
         <p><%= detail.content %></p>
+        <a href="/like/<%= detail._id %>" class="like_btn"
+          >👍 <%= detail.like %></a
+        >
       </section>
 
       <footer class="detail-footer">

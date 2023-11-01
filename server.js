@@ -46,7 +46,6 @@ app.get("/write", async (req, res) => {
 });
 
 app.post("/add", async (req, res) => {
-  // console.log(req.body)
   try {
     if (req.body.title == "") {
       res.send("제목을 입력하세요");
@@ -57,6 +56,7 @@ app.post("/add", async (req, res) => {
         user_name: req.body.user_name,
         like: 0,
         views: 0,
+        created_at: new Date(),
       });
       res.redirect("/list");
     }
@@ -92,21 +92,23 @@ app.get("/edit/:id", async (req, res) => {
 });
 
 app.post("/update/:id", async (req, res) => {
+  const postId = req.params.id;
   try {
     if (req.body.title == "") {
       res.send("제목을 입력하세요");
     } else {
       await db.collection("boardlist").updateOne(
-        { _id: new ObjectId(req.params.id) },
+        { _id: new ObjectId(postId) },
         {
           $set: {
             title: req.body.title,
             content: req.body.content,
             user_name: req.body.user_name,
           },
+          $currentDate: { created_at: true }, // created_at 필드를 현재 시간으로 설정
         }
       );
-      res.redirect("/list");
+      res.redirect(`/detail/${postId}`);
     }
   } catch (e) {
     console.log(e);
@@ -120,6 +122,22 @@ app.post("/delete/:id", async (req, res) => {
       .collection("boardlist")
       .deleteOne({ _id: new ObjectId(req.params.id) });
     res.redirect("/list");
+  } catch (e) {
+    console.log(e);
+    res.send("mongoDB Error");
+  }
+});
+
+//좋아요
+
+app.get("/like/:id", async (req, res) => {
+  // URL에서 ID 가져오기
+  const postId = req.params.id;
+  try {
+    await db
+      .collection("boardlist")
+      .updateOne({ _id: new ObjectId(postId) }, { $inc: { like: 1 } });
+    res.redirect(`/detail/${postId}`);
   } catch (e) {
     console.log(e);
     res.send("mongoDB Error");
