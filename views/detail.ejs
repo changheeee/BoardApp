@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Board App</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+
+  <body>
+    <%- include('nav.ejs') %>
+
+    <div class="detail-wrap">
+      <header class="detail-header">
+        <h4><%= detail.title %></h4>
+        <div class="post-info">
+          <div class="left">
+            <span><%= detail.user_name %></span>
+          </div>
+          <div class="right">
+            <span>조회수 <%= detail.views %></span>
+            <span>|</span>
+            <span>좋아요 <%= detail.like %></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="detail-section">
+        <p><%= detail.content %></p>
+      </section>
+
+      <footer class="detail-footer">
+        <a href="/list" class="back-to-list">전체글</a>
+
+        <div class="post-fnc">
+          <form action="/edit/<%= detail._id %>" method="GET">
+            <button class="edit">수정</button>
+          </form>
+
+          <form action="/delete/<%= detail._id %>" method="POST">
+            <button type="submit" class="edit">삭제</button>
+          </form>
+
+          <form action="/write" method="GET">
+            <button class="write">글작성</button>
+          </form>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

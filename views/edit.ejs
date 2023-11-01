@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Board App</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <%- include('nav.ejs') %>
+    <div class="write-wrap">
+      <form class="write-form" action="/update/<%= edit._id%>" method="POST">
+        <h3>수정하기</h3>
+        <div class="write-header">
+          <input
+            type="text"
+            name="title"
+            class="title"
+            value="<%= edit.title %>"
+            required
+          />
+          <input
+            type="text"
+            name="user_name"
+            class="user_name"
+            value="<%= edit.user_name %>"
+            required
+          />
+        </div>
+          <textarea
+            name="content"
+            id=""
+            cols="30"
+            rows="10"
+            required
+          ><%= edit.content %></textarea>
+
+          <div class="btn-box">
+              <a href="/detail/<%= edit._id%>" class="btn cancel">취소</a>
+            <button class="btn submit" type="submit">수정</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board App</title>
+    <link rel="stylesheet" href="/main.css" />
+
+</head>
+
+<body>
+    <%- include('nav.ejs') %>
+        <div class="post-wrap">
+            <header class="post-header">
+                <div class="title-box">
+                    <h3>게시판</h3>
+                    <span>글을 작성해보세요</span>
+                </div>
+                <a href="/write" class="write_btn">글작성</a>
+            </header>
+
+            <div class="white-bg">
+                <ul class="list-container">
+                    <% if(list.length==0){ %>
+                        <li class="list-empty">
+                            작성된 글이 없습니다
+                            <a href="/write" class="wirte-empty">
+                                글을 작성하세요
+                            </a>
+                        </li>
+                        <%}%>
+                            <% for(let i=0; i<list.length; i++){ %>
+                                <li class="list-box">
+                                    <div class="left">
+                                        <h4>
+                                            <a href="/detail/<%= list[i]._id %>">
+                                                <%= list[i].title%>
+                                            </a>
+                                        </h4>
+                                        <p>
+                                            <%= list[i].content%>
+                                        </p>
+                                    </div>
+                                    <div class="right">
+                                        <strong>
+                                            <%= list[i].user_name%>
+                                        </strong>
+                                        <div class="">
+                                            <span>좋아요 <%= list[i].like%></span>
+                                            <span>조회수 <%= list[i].views%></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%} %>
+                </ul>
+
+
+            </div>
+            <!-- <a href="/write" class="write_btn">글작성</a> -->
+</body>
+
+</html>
