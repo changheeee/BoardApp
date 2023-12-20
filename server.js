@@ -88,7 +88,9 @@ new MongoClient(mongoURL)
 
 // 정적 파일을 제공하는 미들웨어를 설정합니다
 app.use(express.static(__dirname + "/public"));
-app.use("/test", checkLogin);
+app.use("/", showDate);
+app.use("/list", showDate);
+// app.use("/check_login", checkLogin);
 
 // 뷰 엔진을 EJS로 설정합니다
 app.set("view engine", "ejs");
@@ -108,6 +110,7 @@ app.get("/", (req, res) => {
 app.get("/list", async (req, res) => {
   let result = await db.collection("boardlist").find().toArray();
   res.render("board.ejs", { list: result }); // EJS 렌더링
+  // console.log(new Date());
 });
 
 // 글 작성 페이지를 표시하는 라우트를 처리합니다
@@ -224,17 +227,37 @@ app.get("/login", (req, res) => {
 });
 
 // 로그인 처리를 위한 라우트를 설정합니다
-app.post("/login", async (req, res, next) => {
-  // 제출한 아이디와 비밀번호를 확인하고 세션을 생성합니다
-  passport.authenticate("local", (error, user, info) => {
-    if (error) return res.status(500).json(error);
-    if (!user) return res.status(401).json(info.message);
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      res.redirect("/");
-    });
-  })(req, res, next);
-});
+app.post(
+  "/check_login",
+  checkEmpty,
+  async (req, res, next) => {
+    console.log("body: ", req.body);
+    passport.authenticate("local", (error, user, info) => {
+      if (error) return res.status(500).json(error);
+      if (!user) return res.status(401).json(info.message);
+
+      req.logIn(user, (err) => {
+        if (err) return next(err);
+        res.redirect("/");
+      });
+    })(req, res, next);
+  }
+  // }
+);
+
+function checkEmpty(req, res, next) {
+  const { id, password } = req.body;
+
+  if (!id && !password) {
+    return res.send("아이디와 비밀번호 모두 입력하세요");
+  } else if (!id) {
+    return res.send("아이디를 입력하세요");
+  } else if (!password) {
+    return res.send("비밀번호를 입력하세요");
+  } else {
+    next();
+  }
+}
 
 // 회원가입 페이지를 표시하는 라우트를 처리합니다
 app.get("/join", (req, res) => {
@@ -283,14 +306,23 @@ passport.use(
   })
 );
 
-function checkLogin(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    res.send("로그인 안했어요?");
-  }
+//콘솔에 시간
+function showDate(req, res, next) {
+  console.log("현재시간:", new Date());
+  next();
 }
 
-app.get("/test", (req, res) => {
-  // res.send('로그인 ')
-});
+// function checkLogin(req, res, next) {
+//  const { id, password } = req.body;
+// if (!id && !password) {
+//   return res.send("아이디와 비밀번호 모두 입력하세요");
+// } else if (!id) {
+//   return res.send("아이디를 입력하세요");
+// } else if (!password) {
+//   return res.send("비밀번호를 입력하세요");
+// } else {
+//   next()
+// }
+// }
+
+// app.get("/check_login", (req, res) => {});
