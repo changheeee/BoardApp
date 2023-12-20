@@ -46,6 +46,7 @@
                                         <strong>
                                             <%= list[i].user_name%>
                                         </strong>
+                                        <span><%= list[i].created_at.toTimeString().split(' ')[0]%></span>
                                         <div class="">
                                             <span>좋아요 <%= list[i].like%></span>
                                             <span>조회수 <%= list[i].views%></span>
