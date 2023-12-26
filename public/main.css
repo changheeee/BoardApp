@@ -205,9 +205,9 @@ body {
   border-bottom: 1.5px solid #999;
 }
 .detail-wrap .detail-section p {
-  padding-bottom: 150px;
-  font-size: 15px;
-  font-weight: 400;
+  /* padding-bottom: 150px; */
+  /* font-size: 15px;
+  font-weight: 400; */
 }
 
 .detail-wrap .detail-section .like_btn {
@@ -216,7 +216,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 2px 8px;
-  border: 1px solid #555;
+  border: 1px solid #999;
   color: #333;
   border-radius: 3px;
 }

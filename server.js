@@ -249,11 +249,11 @@ function checkEmpty(req, res, next) {
   const { id, password } = req.body;
 
   if (!id && !password) {
-    return res.send("아이디와 비밀번호 모두 입력하세요");
+    res.send("아이디와 비밀번호 모두 입력하세요");
   } else if (!id) {
-    return res.send("아이디를 입력하세요");
+    res.send("아이디를 입력하세요");
   } else if (!password) {
-    return res.send("비밀번호를 입력하세요");
+    res.send("비밀번호를 입력하세요");
   } else {
     next();
   }

@@ -39,14 +39,18 @@
                                             </a>
                                         </h4>
                                         <p>
-                                            <%= list[i].content%>
+                                            <% const contentHtml = list[i].content; %>
+                                            <% const startIdx = contentHtml.indexOf('<p>'); %>
+                                            <% const endIdx = contentHtml.indexOf('</p>'); %>
+                                            <% const extractedContent = startIdx !== -1 && endIdx !== -1 ? contentHtml.slice(startIdx, endIdx + 4) : ''; %>
+                                            <%- extractedContent %>
                                         </p>
                                     </div>
                                     <div class="right">
                                         <strong>
                                             <%= list[i].user_name%>
                                         </strong>
-                                        <span><%= list[i].created_at.toTimeString().split(' ')[0]%></span>
+                                        <span><%= list[i].created_at.toTimeString().split(' ')[0].slice(0, 5) %></span>
                                         <div class="">
                                             <span>좋아요 <%= list[i].like%></span>
                                             <span>조회수 <%= list[i].views%></span>

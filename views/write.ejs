@@ -4,12 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board App</title>
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/main.css" />
+
+    <style>
+      /* 재정의할 스타일을 여기에 추가 */
+      .ql-toolbar {
+        width: 100%;
+      }
+      #editor {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 0.5rem;
+      }
+    </style>
   </head>
   <body>
     <%- include('nav.ejs') %>
     <div class="write-wrap">
-      <form class="write-form" action="/add" method="POST">
+      <form class="write-form" action="/add" method="POST" id="postForm">
         <h3>작성하기</h3>
         <div class="write-header">
           <input
@@ -27,21 +43,36 @@
             required
           />
         </div>
-          <textarea
-            name="content"
-            id=""
-            cols="30"
-            rows="10"
-            required
-          ></textarea>
-
-          <div class="btn-box">
-              <a href="/list" class="btn cancel">취소</a>
-            <button class="btn submit" type="submit">작성</button>
-          </div>
+        <input type="hidden" name="content" id="contentInput" />
+        <div id="editor"></div>
+        <div class="btn-box">
+          <a href="/list" class="btn cancel">취소</a>
+          <button class="btn submit" type="submit">작성</button>
         </div>
-
       </form>
     </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+      var quill = new Quill("#editor", {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 제목 스타일
+            ["bold", "italic", "underline", "strike"], // 텍스트 스타일
+            //[{ list: "ordered" }, { list: "bullet" }], // 순서 있는/없는 목록
+            [{ align: [] }], // 텍스트 정렬
+            //["link", "image", "video"], // 링크, 이미지, 동영상 삽입
+            ["image"],
+            ["clean"], // 형식 지우기
+          ],
+        },
+      });
+      // Quill 에디터의 내용을 hidden input에 업데이트
+      quill.on("text-change", function () {
+        var content = document.querySelector("#contentInput");
+        content.value = quill.root.innerHTML;
+      });
+    </script>
   </body>
 </html>
