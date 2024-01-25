@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css" />
+  </head>
+  <body>
+    <%- include('nav.ejs') %>
+    <div class="post-wrap">
+      <header class="post-header">
+        <div class="title-box">
+          <h3>"<%= query %>" 검색 결과</h3>
+        </div>
+      </header>
+      <div class="white-bg">
+        <ul class="list-container">
+          <% if (results.length === 0) { %>
+          <li class="list-empty">
+            "<%= query %>"에 대한 검색 결과가 없습니다.
+          </li>
+          <% } else { %> <% results.forEach(function(post) { %>
+          <li class="list-box">
+            <div class="left">
+              <a href="/detail/<%= post._id %>"><%= post.title %></a>
+              <p><%= post.content %></p>
+            </div>
+            <div class="right">
+              <strong> <%= post.user_name %> </strong>
+              <span
+                ><%= post.created_at.toTimeString().split(' ')[0].slice(0, 5)
+                %></span
+              >
+              <div class="">
+                <span>좋아요 <%= post.like %></span>
+                <span>조회수 <%= post.views %></span>
+              </div>
+            </div>
+          </li>
+          <% }); %> <% } %>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

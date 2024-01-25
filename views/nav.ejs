@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Board App</title>
-  </head>
-  <body>
-    <div class="nav">
-      <div>
-        <a href="/" class="logo">Board App</a>
-        <a href="/list" class="board">게시판</a>
-      </div>
-      <div>
-        <a href="/login" class="login">로그인</a>
-        <a href="/join" class="join">회원가입</a>
-      </div>
-    </div>
-  </body>
-</html>
+<div class="nav">
+  <div class="">
+    <a href="/" class="logo">Board App</a>
+    <a href="/list" class="board">게시판</a>
+  </div>
+
+  <form action="/search">
+    <input class="search" type="text" name="query" placeholder="게시글 검색" />
+    <!-- <button type="submit">검색</button> -->
+  </form>
+  <div>
+    <% if (currentUser) { %>
+    <a href="/logout" class="logout">로그아웃</a>
+    <a href="/mypage" class="mypage">마이페이지</a>
+    <% } else { %>
+    <a href="/login" class="login">로그인</a>
+    <a href="/join" class="join">회원가입</a>
+    <% } %>
+  </div>
+</div>

@@ -4,7 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board App</title>
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/main.css" />
+    <style>
+      /* 재정의할 스타일을 여기에 추가 */
+      .ql-toolbar {
+        width: 100%;
+      }
+      #editor {
+        width: 100%;
+        height: 400px;
+        margin-bottom: 0.5rem;
+      }
+    </style>
   </head>
   <body>
     <%- include('nav.ejs') %>
@@ -27,21 +42,39 @@
             required
           />
         </div>
-          <textarea
-            name="content"
-            id=""
-            cols="30"
-            rows="10"
-            required
-          ><%= edit.content %></textarea>
-
-          <div class="btn-box">
-              <a href="/detail/<%= edit._id%>" class="btn cancel">취소</a>
-            <button class="btn submit" type="submit">수정</button>
-          </div>
+        <!-- <input
+          type="hidden"
+          name="content"
+          id="contentInput"
+          value="<%= edit.content %>"
+        /> -->
+        <div id="editor"></div>
+        <div class="btn-box">
+          <a href="/detail/<%= edit._id%>" class="btn cancel">취소</a>
+          <button class="btn submit" type="submit">수정</button>
         </div>
-
       </form>
     </div>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+      var quill = new Quill("#editor", {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], // 제목 스타일
+            ["bold", "italic", "underline", "strike"], // 텍스트 스타일
+            [{ align: [] }], // 텍스트 정렬
+            ["image"],
+            ["clean"], // 형식 지우기
+          ],
+        },
+      });
+      // Quill 에디터의 내용을 hidden input에 업데이트
+      quill.on("text-change", function () {
+        var content = document.querySelector("#contentInput");
+        // content.value = JSON.stringify(quill.getContents());
+        content.value = "<%= edit.content %>";
+      });
+    </script>
   </body>
 </html>
